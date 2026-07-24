@@ -96,6 +96,8 @@ Each log row has a narrow coloured severity rail. Critical and high events appea
 
 Selecting a row opens a slide-in details panel. It shows the complete log entry in a simple monospace key/value format, keeping the view close to the original record for easier investigation.
 
+To ensure all the filtering, sorting and pagination process are taking place in the server side, each process is tested using the POSTMAN and the snapshots of the results are in the SnapShot_Postman_DB folder.
+
 
 ## Future improvements
 
