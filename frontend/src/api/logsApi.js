@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_BASE ?? '';
+const API_ORIGIN = import.meta.env.VITE_API_BASE ?? '';
+const BASE_URL = `${API_ORIGIN}/api/logs`;
 
 async function handle(res) {
   if (!res.ok) {
