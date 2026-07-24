@@ -80,23 +80,29 @@ node seed.js
 
 ## Key design decisions
 
-Filtering, sorting, searching, and pagination all happen on the server. The browser only loads the current page of results—25 records by default, with up to 100 available per page. This keeps the dashboard responsive, even when handling large log collections.
+*Filtering, sorting, searching, and pagination all happen on the server. The browser only loads the current page of results—25 records by default, with up to 100  available per page. This keeps the dashboard responsive, even when handling large log collections.
 
-The main endpoint is `GET /api/logs`. It supports search, filters for severity, status, role, and region, sorting, pagination, and date ranges. Multiple filter values can be passed as comma-separated values.
+*The main endpoint is `GET /api/logs`. It supports search, filters for severity, status, role, and region, sorting, pagination, and date ranges. Multiple filter   values can be passed as comma-separated values.
 
-Bulk uploads use MongoDB’s `insertMany` with `ordered: false`. This means one invalid record will not stop the entire batch from being uploaded. Any failed rows are reported back so they can be reviewed separately.
+*Bulk uploads use MongoDB’s `insertMany` with `ordered: false`. This means one invalid record will not stop the entire batch from being uploaded. Any failed rows  are reported back so they can be reviewed separately.
 
-Search is powered by a MongoDB text index across commonly searched fields, including actor, action, resource, and IP address. The search input waits briefly before sending a request, which prevents a network call for every single keystroke (Debouncing).
+*Search is powered by a MongoDB text index across commonly searched fields, including actor, action, resource, and IP address. The search input waits briefly      before sending a request, which prevents a network call for every single keystroke (Debouncing).
 
-The database includes indexes for the main filter fields, as well as a combined index for common severity, status, and timestamp queries. These indexes help the dashboard remain fast as the number of records grows.
+*The database includes indexes for the main filter fields, as well as a combined index for common severity, status, and timestamp queries. These indexes help the  dashboard remain fast as the number of records grows.
 
-The application keeps its search, filter, sorting, and pagination state in one place: `App.jsx`. Whenever a filter changes, the page resets to the first page so users do not end up looking at an empty page after narrowing their results.
+*The application keeps its search, filter, sorting, and pagination state in one place: `App.jsx`. Whenever a filter changes, the page resets to the first page so  users do not end up looking at an empty page after narrowing their results.
 
-Each log row has a narrow coloured severity rail. Critical and high events appear in red, medium events in amber, and low-severity events in blue. This helps security engineers spot higher-priority activity at a glance.
+*The repository includes two files to help you quickly populate the dashboard with test data:
 
-Selecting a row opens a slide-in details panel. It shows the complete log entry in a simple monospace key/value format, keeping the view close to the original record for easier investigation.
+ "generate-logs.js" A Node.js script that generates 10,000 realistic audit log records and writes them to "logs.json". Each record includes randomised values for   actor, role, action, resource, severity, status, region, IP address, and timestamp — spread across the past year. 
 
-To ensure all the filtering, sorting and pagination process are taking place in the server side, each process is tested using the POSTMAN and the snapshots of the results are in the SnapShot_Postman_DB folder.
+ "logs.json" The pre-generated output of generate-logs.js. This file contains 10,000 audit log records ready to upload immediately. Use the dashboard's Upload      logs button and select this file — no server seeding or database commands needed.
+
+*Each log row has a narrow coloured severity rail. Critical and high events appear in red, medium events in amber, and low-severity events in blue. This helps     security engineers spot higher-priority activity at a glance.
+
+*Selecting a row opens a slide-in details panel. It shows the complete log entry in a simple monospace key/value format, keeping the view close to the original    record for easier investigation.
+
+*To ensure all the filtering, sorting and pagination process are taking place in the server side, each process is tested using the POSTMAN and the snapshots of    the results are in the SnapShot_Postman_DB folder.
 
 
 ## Future improvements
