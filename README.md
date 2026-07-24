@@ -72,10 +72,10 @@ To add 10,000 records, use the dashboard’s **Upload logs** button and select a
 
 You can also seed the data using 'seed.js' file:
 
-'''bash 
+```bash
 cd backend
 node seed.js
-'''
+```
 
 
 ## Key design decisions
