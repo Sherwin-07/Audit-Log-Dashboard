@@ -62,7 +62,7 @@ The frontend runs at `http://localhost:5173`. During development, requests to `/
 
 ## Loading sample data
 
-To add 10,000 records, use the dashboard’s **Upload logs** button and select a JSON file containing an array of log entries:
+To add 10,000 records, use the dashboard’s **Upload logs** button and select a JSON file(logs.json) containing an array of log entries:
 
 ```json
 [
